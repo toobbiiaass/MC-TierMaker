@@ -53,8 +53,16 @@ def save_player_head_with_name(username, output_dir):
 
     try:
         skin = Image.open("temp_skin.png")
-        head = skin.crop((8, 8, 16, 16))
-        head = head.resize((128, 128), Image.NEAREST)
+        
+        # layer1
+        head_base = skin.crop((8, 8, 16, 16))
+        # layer2
+        head_overlay = skin.crop((40, 8, 48, 16))
+        
+        head_base = head_base.resize((128, 128), Image.NEAREST)
+        head_overlay = head_overlay.resize((128, 128), Image.NEAREST)
+        head_base.paste(head_overlay, (0, 0), head_overlay)
+        head = head_base
 
         draw = ImageDraw.Draw(head)
         try:
